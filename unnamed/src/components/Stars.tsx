@@ -4,13 +4,13 @@ const Stars = () => {
  const starGeometry = new THREE.BufferGeometry();
  const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.5 });
 
- const starCount = 1000;
+ const starCount = 2000;
  const starVertices = [];
 
  for (let i = 0; i < starCount; i++) {
-  const x = (Math.random() - 0.5) * 2000;
-  const y = (Math.random() - 0.5) * 2000;
-  const z = (Math.random() - 0.5) * 2000;
+  const x = (Math.random() - 0.5) * 3000;
+  const y = (Math.random() - 0.5) * 3000;
+  const z = (Math.random() - 0.5) * 3000;
   starVertices.push(x, y, z);
  }
 

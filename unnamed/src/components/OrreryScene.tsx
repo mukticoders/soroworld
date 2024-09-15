@@ -8,6 +8,7 @@ import Stars from "./Stars";
 const OrreryScene: React.FC = () => {
  const MAX_ZOOM_OUT = 1000;
  const PLANET_RADIUS_SCALE = 25;
+ const SOLAR_SYSTEM_INCLINATION = 30;
  const planets = [
   {
    texture:
@@ -41,7 +42,7 @@ const OrreryScene: React.FC = () => {
   },
   {
    texture:
-    "https://upload.wikimedia.org/wikipedia/commons/7/73/Venus_-_PIA00252_-_JPL.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-OMXsZFqfhTgoP2i4r0KdOAsGMHxuHKD0PQ&s",
    name: "Venus",
    params: {
     size: 1.2,
@@ -51,7 +52,7 @@ const OrreryScene: React.FC = () => {
   },
   {
    texture:
-    "https://upload.wikimedia.org/wikipedia/commons/e/ec/Mercury_in_color.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTORdzdwfM7t3gPHwI267R9fiN8-Fqe2Dr8yg&s",
    name: "Mercury",
    params: {
     size: 0.6,
@@ -61,7 +62,7 @@ const OrreryScene: React.FC = () => {
   },
   {
    texture:
-    "https://upload.wikimedia.org/wikipedia/commons/e/eb/Jupiter_%28canvas%29.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ABVh6X-rxANutcMkEqX0Q6fQtFt7ERZPkQ&s",
    name: "Jupiter",
    params: {
     size: 5.5,
@@ -71,7 +72,7 @@ const OrreryScene: React.FC = () => {
   },
   {
    texture:
-    "https://upload.wikimedia.org/wikipedia/commons/3/32/Saturn_during_Equinox.jpg",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFEBAq2y8p5pY3Q3JR4DE-fAiyFrXeGTj6VA&s",
    name: "Saturn",
    params: {
     size: 4.5,
@@ -90,7 +91,7 @@ const OrreryScene: React.FC = () => {
   },
   {
    texture:
-    "https://upload.wikimedia.org/wikipedia/commons/e/e5/Neptune_Full.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/9/95/Solarsystemscope_texture_2k_uranus.jpg",
    name: "Neptune",
    params: {
     size: 3.8,
@@ -181,7 +182,9 @@ const OrreryScene: React.FC = () => {
   scene.add(stars.mesh);
 
   // Apply solar system inclination
-  const solarSystemInclinationRad = THREE.MathUtils.degToRad(30);
+  const solarSystemInclinationRad = THREE.MathUtils.degToRad(
+   SOLAR_SYSTEM_INCLINATION
+  );
   solarSystemGroup.rotation.x = solarSystemInclinationRad;
 
   // Handle window resize
@@ -192,7 +195,7 @@ const OrreryScene: React.FC = () => {
   });
 
   return () => {
-   mountRef.current?.removeChild(renderer.domElement);
+   mountRef!.current?.removeChild(renderer.domElement);
   };
  }, []);
 

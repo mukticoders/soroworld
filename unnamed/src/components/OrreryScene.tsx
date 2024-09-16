@@ -1,12 +1,15 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import CelestialBody from "./CelestialBody";
 import Orbit from "./Orbit";
 import Stars from "./Stars";
+import { NEO, Planet } from "../types/data";
 
-const OrreryScene: React.FC = () => {
+const OrreryScene: React.FC<{
+ setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+ setData: React.Dispatch<React.SetStateAction<Planet | NEO | null>>;
+}> = ({ setIsOpen, setData }) => {
  const MAX_ZOOM_OUT = 1000;
  const PLANET_RADIUS_SCALE = 25;
  const SOLAR_SYSTEM_INCLINATION = 30;
@@ -200,7 +203,7 @@ const OrreryScene: React.FC = () => {
 
    if (texture) {
     const _texture = textureLoader.load(texture);
-    _texture.minFilter = THREE.LinearFilter; // Optional: to avoid mipmap artifacts
+    _texture.minFilter = THREE.LinearFilter;
 
     const celestialBody = new CelestialBody({
      texture: _texture,
@@ -212,6 +215,9 @@ const OrreryScene: React.FC = () => {
     const bodyGroup = new THREE.Group();
     bodyGroup.rotation.x = THREE.MathUtils.degToRad(inclination);
     bodyGroup.add(celestialBody.mesh);
+    if (celestialBody.sprite) {
+     bodyGroup.add(celestialBody.sprite);
+    }
     solarSystemGroup.add(bodyGroup);
 
     if (orbitRadius > 0) {
@@ -236,10 +242,42 @@ const OrreryScene: React.FC = () => {
   );
   solarSystemGroup.rotation.x = solarSystemInclinationRad;
 
+  // Raycaster for click detection
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  const handleMouseClick = (event: MouseEvent) => {
+   event.preventDefault();
+
+   // Calculate mouse position in normalized device coordinates (-1 to +1) for both components
+   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+   // Update the raycaster
+   raycaster.setFromCamera(mouse, camera);
+
+   // Find intersections
+   const intersects = raycaster.intersectObjects(scene.children, true);
+
+   intersects.forEach((intersect) => {
+    if (intersect.object instanceof THREE.Mesh) {
+     const data = celestialBodies.find(
+      (body) => body.name === intersect.object.name
+     );
+     if (data) {
+      setData(data);
+      setIsOpen(true);
+     }
+    }
+   });
+  };
+
+  window.addEventListener("click", handleMouseClick);
+
   const renderLoop = () => {
    requestAnimationFrame(renderLoop);
 
-   const time = Date.now() * 0.001; // Time in seconds
+   const time = Date.now() * 0.0001; // Time in seconds
    celestialAnimations.forEach((animate) => animate(time));
 
    controls.update();
@@ -256,6 +294,7 @@ const OrreryScene: React.FC = () => {
 
   return () => {
    mountRef.current?.removeChild(renderer.domElement);
+   window.removeEventListener("click", handleMouseClick);
   };
  }, []);
 

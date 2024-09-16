@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-const Orbit = (radius: number) => {
+const Orbit = (radius: number, group: string) => {
  const points = [];
  const segments = 64;
 
@@ -13,9 +13,7 @@ const Orbit = (radius: number) => {
 
  const geometry = new THREE.BufferGeometry().setFromPoints(points);
  const material = new THREE.LineBasicMaterial({
-  color: 0xffffff,
-  opacity: 0.5,
-  transparent: true,
+  color: group == "NEO" ? Math.random() * 0xffffff : 0x888888
  });
  const line = new THREE.LineLoop(geometry, material);
 

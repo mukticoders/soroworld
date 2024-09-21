@@ -1,7 +1,8 @@
 import React from "react";
 import OrreryScene from "./components/home/OrreryScene";
-import { Details } from "./components/home/Details";
+import { Details } from "./components/Details";
 import { Planet, NEO } from "./types/data";
+import { Navbar } from "./components/Navbar";
 
 const App: React.FC = () => {
  const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -10,6 +11,7 @@ const App: React.FC = () => {
   <div>
    <OrreryScene setIsOpen={setIsOpen} setData={setData} />
    <Details isOpen={isOpen} onClose={() => setIsOpen(false)} data={data} />
+   <Navbar />
   </div>
  );
 };

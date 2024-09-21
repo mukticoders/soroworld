@@ -1,4 +1,5 @@
-const PLANET_RADIUS_SCALE = 25;
+const PLANET_RADIUS_SCALE = 10;
+const PLANET_RADIUS_YINT = 10;
 
 export const celestialBodies = [
  {
@@ -7,7 +8,7 @@ export const celestialBodies = [
   name: "Sun",
   group: "Star",
   params: {
-   size: 5,
+   size: 7,
    orbitRadius: 0,
    inclination: 0,
    velocity: 0,
@@ -20,7 +21,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 1.5,
-   orbitRadius: 1.0 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 1.0 * PLANET_RADIUS_SCALE,
    inclination: 0.00005,
    velocity: 29.8,
   },
@@ -32,7 +33,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 1,
-   orbitRadius: 1.524 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 1.524 * PLANET_RADIUS_SCALE,
    inclination: 1.85,
    velocity: 24.1,
   },
@@ -44,7 +45,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 1.2,
-   orbitRadius: 0.72 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 0.72 * PLANET_RADIUS_SCALE,
    inclination: 3.39,
    velocity: 35.0,
   },
@@ -56,7 +57,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 0.6,
-   orbitRadius: 0.39 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 0.39 * PLANET_RADIUS_SCALE,
    inclination: 7.0,
    velocity: 47.4,
   },
@@ -68,7 +69,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 5.5,
-   orbitRadius: 5.2 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 5.2 * PLANET_RADIUS_SCALE,
    inclination: 1.31,
    velocity: 13.1,
   },
@@ -80,7 +81,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 4.5,
-   orbitRadius: 9.58 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 9.58 * PLANET_RADIUS_SCALE,
    inclination: 2.49,
    velocity: 9.7,
   },
@@ -92,7 +93,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 3.9,
-   orbitRadius: 19.18 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 19.18 * PLANET_RADIUS_SCALE,
    inclination: 0.77,
    velocity: 6.8,
   },
@@ -104,7 +105,7 @@ export const celestialBodies = [
   group: "Planet",
   params: {
    size: 3.8,
-   orbitRadius: 30.07 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 30.07 * PLANET_RADIUS_SCALE,
    inclination: 1.77,
    velocity: 5.4,
   },
@@ -117,7 +118,7 @@ export const celestialBodies = [
   group: "NEO",
   params: {
    size: 0.2,
-   orbitRadius: 1.5 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 1.5 * PLANET_RADIUS_SCALE,
    inclination: 10.0,
    velocity: 10,
   },
@@ -129,7 +130,7 @@ export const celestialBodies = [
   group: "NEO",
   params: {
    size: 0.2,
-   orbitRadius: 1.2 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 1.2 * PLANET_RADIUS_SCALE,
    inclination: 8.0,
    velocity: 10,
   },
@@ -141,7 +142,7 @@ export const celestialBodies = [
   group: "NEO",
   params: {
    size: 0.2,
-   orbitRadius: 1.0 * PLANET_RADIUS_SCALE,
+   orbitRadius: PLANET_RADIUS_YINT + 1.0 * PLANET_RADIUS_SCALE,
    inclination: 12.0,
    velocity: 10,
   },

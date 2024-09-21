@@ -1,6 +1,6 @@
 import React from "react";
-import OrreryScene from "./components/OrreryScene";
-import { Details } from "./components/Details";
+import OrreryScene from "./components/home/OrreryScene";
+import { Details } from "./components/home/Details";
 import { Planet, NEO } from "./types/data";
 
 const App: React.FC = () => {

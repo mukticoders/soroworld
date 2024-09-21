@@ -1,5 +1,5 @@
 import React from "react";
-import { NEO, Planet } from "../types/data";
+import { NEO, Planet } from "../../types/data";
 
 interface DetailsProps {
  isOpen: boolean;

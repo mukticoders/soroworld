@@ -13,9 +13,12 @@ class CelestialBody {
  orbitRadius?: number;
  name?: string;
  sprite?: THREE.Sprite;
+ size: number; // Store the size of the celestial body
 
  constructor(props: CelestialBodyProps) {
   const { texture, size, position, orbitRadius, name } = props;
+
+  this.size = size; // Store the size for later use
 
   const geometry = new THREE.SphereGeometry(size, 32, 32);
   const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -36,26 +39,37 @@ class CelestialBody {
  createLabel(name: string) {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
+
+  // Dynamic canvas size based on planet's size
+  const canvasSize = Math.max(this.size * 16, 256); // Use the stored size property
+  canvas.width = canvasSize;
+  canvas.height = canvasSize / 2;
+
   if (!context) return;
 
-  context.font = "24px Arial";
+  // Dynamic font size based on planet size
+  const fontSize = Math.max(this.size * 4, 24); // Minimum font size of 24
+  context.font = `${fontSize}px Arial`;
   context.fillStyle = "white";
   context.textAlign = "center";
   context.fillText(name, canvas.width / 2, canvas.height / 2);
 
   const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
   this.sprite = new THREE.Sprite(spriteMaterial);
-  this.sprite.scale.set(10, 5, 1); // Adjust size as needed
 
-  // Set position slightly above the celestial body
-  if (this.mesh.position) {
-   this.sprite.position.set(
-    this.mesh.position.x,
-    this.mesh.position.y + 2, // Adjust height as needed
-    this.mesh.position.z
-   );
-  }
+  // Dynamic sprite scale based on planet size
+  const scaleFactor = Math.max(this.size * 1.5, 10); // Use the stored size property
+  this.sprite.scale.set(scaleFactor, scaleFactor * 0.5, 1); // Proportional scaling for width and height
+
+  // Dynamic label positioning above the planet, relative to the planet's size
+  const heightOffset = Math.max(this.size * 1.2, 5); // Ensure a minimum offset of 5 units above the planet
+  this.sprite.position.set(
+   this.mesh.position.x,
+   this.mesh.position.y + heightOffset,
+   this.mesh.position.z
+  );
  }
 
  updatePosition(time: number) {
@@ -64,9 +78,10 @@ class CelestialBody {
    this.mesh.position.z = Math.sin(time) * this.orbitRadius;
 
    if (this.sprite) {
+    const heightOffset = Math.max(this.size * 1.2, 5); // Ensure consistent label height during orbit
     this.sprite.position.set(
      this.mesh.position.x,
-     this.mesh.position.y + 2, // Adjust height as needed
+     this.mesh.position.y + heightOffset,
      this.mesh.position.z
     );
    }

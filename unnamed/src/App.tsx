@@ -1,19 +1,16 @@
-import React from "react";
-import OrreryScene from "./components/home/OrreryScene";
-import { Details } from "./components/Details";
-import { Planet, NEO } from "./types/data";
-import { Navbar } from "./components/Navbar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import { Explore } from "./pages/Explore";
 
-const App: React.FC = () => {
- const [isOpen, setIsOpen] = React.useState<boolean>(false);
- const [data, setData] = React.useState<Planet | NEO | null>(null);
+export default function App() {
  return (
-  <div>
-   <OrreryScene setIsOpen={setIsOpen} setData={setData} />
-   <Details isOpen={isOpen} onClose={() => setIsOpen(false)} data={data} />
-   <Navbar />
-  </div>
+  <>
+   <BrowserRouter basename="NASA-Space-Apps-Challenge-2024">
+    <Routes>
+     <Route path="/" element={<Home />} />
+     <Route path="/explore" element={<Explore />} />
+    </Routes>
+   </BrowserRouter>
+  </>
  );
-};
-
-export default App;
+}

@@ -1,6 +1,9 @@
 import * as THREE from "three";
 
 const Orbit = (radius: number, group: string) => {
+ if (group === "NEC" || group === "NEA" || group === "PHA") {
+  return { line: null };
+ }
  const points = [];
  const segments = 64;
 
@@ -13,7 +16,7 @@ const Orbit = (radius: number, group: string) => {
 
  const geometry = new THREE.BufferGeometry().setFromPoints(points);
  const material = new THREE.LineBasicMaterial({
-  color: group == "NEO" ? Math.random() * 0xffffff : 0x888888
+  color: Math.random() * 0xffffff,
  });
  const line = new THREE.LineLoop(geometry, material);
 

@@ -3,6 +3,7 @@ import { Navbar } from "../components/home/Navbar";
  * https://science.nasa.gov/solar-system/
  */
 export const Explore = () => {
+
  return (
   <main className="bg-[#0f0e13] text-white min-h-screen">
    <Navbar home={false} />

@@ -5,7 +5,10 @@ import CelestialBody from "./CelestialBody";
 import Orbit from "./Orbit";
 import Stars from "./Stars";
 import { celestialBodies } from "../../../public/data/orrery";
-import { NEO, Planet } from "../../types/data";
+import fetchNeoData from "./../../../public/data/fetchNEO";
+import { Celestial } from "../../types/data";
+
+/* https://images-api.nasa.gov/search?q=earth */
 
 class Orrery {
  scene: THREE.Scene;
@@ -20,7 +23,7 @@ class Orrery {
 
  constructor(
   mountRef: React.MutableRefObject<HTMLDivElement | null>,
-  private setData: React.Dispatch<React.SetStateAction<Planet | NEO | null>>,
+  private setData: React.Dispatch<React.SetStateAction<Celestial | null>>,
   private setIsOpen: React.Dispatch<React.SetStateAction<boolean>>,
   private MAX_ZOOM_OUT: number = 200,
   private SOLAR_SYSTEM_INCLINATION: number = 30
@@ -57,6 +60,55 @@ class Orrery {
   this.scene.add(this.solarSystemGroup);
   const textureLoader = new THREE.TextureLoader();
 
+  fetchNeoData(
+   (
+    celestialBodies: {
+     texture: string;
+     name: string;
+     group: string;
+     params: {
+      size: number;
+      orbitRadius: number;
+      inclination: number;
+      velocity: number;
+     };
+    }[]
+   ) => {
+    celestialBodies.forEach((body) => {
+     const { texture, name, params, group } = body;
+     const { size, orbitRadius, inclination, velocity } = params;
+
+     const _texture = texture ? new THREE.TextureLoader().load(texture) : null;
+     if (_texture) {
+      _texture.minFilter = THREE.LinearFilter;
+
+      const celestialBody = new CelestialBody({
+       texture: _texture,
+       size,
+       orbitRadius,
+       name,
+       group,
+      });
+
+      const bodyGroup = new THREE.Group();
+      bodyGroup.rotation.x = THREE.MathUtils.degToRad(inclination);
+      bodyGroup.add(celestialBody.mesh);
+      if (celestialBody.sprite) {
+       bodyGroup.add(celestialBody.sprite);
+      }
+      this.solarSystemGroup.add(bodyGroup);
+
+      if (orbitRadius > 0) {
+       const bodyOrbit = Orbit(orbitRadius, body.group);
+       if (bodyOrbit.line) bodyGroup.add(bodyOrbit.line);
+      }
+
+      celestialBody.updatePosition(Math.random() * 360);
+     }
+    });
+   }
+  );
+
   celestialBodies.forEach((body) => {
    const { texture, glb, name, params, group } = body;
    const { size, orbitRadius, inclination, velocity } = params;
@@ -70,7 +122,7 @@ class Orrery {
      size,
      orbitRadius,
      name,
-     group
+     group,
     });
 
     const bodyGroup = new THREE.Group();
@@ -83,7 +135,7 @@ class Orrery {
 
     if (orbitRadius > 0) {
      const bodyOrbit = Orbit(orbitRadius, body.group);
-     bodyGroup.add(bodyOrbit.line);
+     bodyGroup.add(bodyOrbit.line!);
     }
 
     const animate = (time: number) => {
@@ -127,6 +179,31 @@ class Orrery {
     if (data) {
      this.setData(data);
      this.setIsOpen(true);
+    } else {
+     fetchNeoData((c: Celestial[] | undefined) => {
+      const data1 = c?.find((body) => body.name === intersect.object.name);
+      if (data1) {
+       this.setData(data1!);
+       this.setIsOpen(true);
+      }
+     });
+    }
+   } else if (intersect.object instanceof THREE.Sprite) {
+    const data = celestialBodies.find(
+     (body) => body.name === intersect.object.name
+    );
+    if (data) {
+     this.setData(data);
+     this.setIsOpen(true);
+    } else {
+     fetchNeoData((c: Celestial[] | undefined) => {
+      const data1 = c?.find((body) => body.name === intersect.object.name);
+
+      if (data1) {
+       this.setData(data1!);
+       this.setIsOpen(true);
+      }
+     });
     }
    }
   });
@@ -162,7 +239,7 @@ class Orrery {
 
 const OrreryScene: React.FC<{
  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
- setData: React.Dispatch<React.SetStateAction<Planet | NEO | null>>;
+ setData: React.Dispatch<React.SetStateAction<Celestial | null>>;
 }> = ({ setIsOpen, setData }) => {
  const mountRef = useRef<HTMLDivElement>(null);
 

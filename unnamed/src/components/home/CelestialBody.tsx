@@ -55,12 +55,13 @@ class CelestialBody {
   context.font = `${fontSize}px Arial`;
   context.fillStyle = "white";
   context.textAlign = "center";
-  context.fillText(name, canvas.width / 2, canvas.height / 2);
+  context.fillText("• " + name, canvas.width / 2, canvas.height / 2);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.needsUpdate = true;
   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
   this.sprite = new THREE.Sprite(spriteMaterial);
+  this.sprite.name = name;
 
   // Dynamic sprite scale based on planet size
   const scaleFactor = Math.max(this.size * 1.5, 10); // Use the stored size property
@@ -76,9 +77,8 @@ class CelestialBody {
  }
 
  updatePosition(time: number) {
-  if (this.orbitRadius) {
-   this.mesh.position.x = Math.cos(time) * this.orbitRadius;
-   this.mesh.position.z = Math.sin(time) * this.orbitRadius;
+   this.mesh.position.x = Math.cos(time) * this.orbitRadius!;
+   this.mesh.position.z = Math.sin(time) * this.orbitRadius!;
 
    if (this.sprite) {
     const heightOffset = Math.max(this.size * 1.2, 5); // Ensure consistent label height during orbit
@@ -88,7 +88,6 @@ class CelestialBody {
      this.mesh.position.z
     );
    }
-  }
  }
 }
 

@@ -58,7 +58,7 @@ class Orrery {
   const textureLoader = new THREE.TextureLoader();
 
   celestialBodies.forEach((body) => {
-   const { texture, glb, name, params } = body;
+   const { texture, glb, name, params, group } = body;
    const { size, orbitRadius, inclination, velocity } = params;
 
    const _texture = texture ? textureLoader.load(texture) : null;
@@ -70,6 +70,7 @@ class Orrery {
      size,
      orbitRadius,
      name,
+     group
     });
 
     const bodyGroup = new THREE.Group();

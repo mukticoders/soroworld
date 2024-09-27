@@ -6,6 +6,7 @@ interface CelestialBodyProps {
  orbitRadius?: number;
  position?: { x: number; y: number; z: number };
  name?: string;
+ group?: string;
 }
 
 class CelestialBody {
@@ -14,9 +15,10 @@ class CelestialBody {
  name?: string;
  sprite?: THREE.Sprite;
  size: number; // Store the size of the celestial body
+ group?: string;
 
  constructor(props: CelestialBodyProps) {
-  const { texture, size, position, orbitRadius, name } = props;
+  const { texture, size, position, orbitRadius, name, group } = props;
 
   this.size = size; // Store the size for later use
 
@@ -29,6 +31,7 @@ class CelestialBody {
   }
   this.orbitRadius = orbitRadius;
   this.name = name;
+  this.group = group;
 
   if (name) {
    this.createLabel(name);

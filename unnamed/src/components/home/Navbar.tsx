@@ -4,8 +4,8 @@ export const Navbar = ({ home }: { home?: boolean }) => {
  return (
   <div
    className={
-    "z-50 fixed left-0 w-full px-7 bg-gray-800 text-white flex justify-between bg-gradient-to-r from-[#e1b06f] to-black" +
-    (home ? " top-0 py-4" : " top-5 py-3")
+    "z-50 left-0 w-full px-7 bg-gray-800 text-white flex justify-between bg-gradient-to-r from-primary via-[#1f1f1f] to-{#1f1f1f]" +
+    (home ? " fixed top-0 py-4" : " sticky top-5 py-3")
    }
   >
    <Link to="/">
@@ -25,8 +25,8 @@ export const Navbar = ({ home }: { home?: boolean }) => {
       ["The Sun", "/explore/sun"],
       ["Planets", "/explore/planets"],
       ["Moons", "/explore/moons"],
-      ["Asteroids", "/explore/asteroids"],
       ["Comets", "/explore/comets"],
+      ["Asteroids", "/explore/asteroids"],
      ].map(([name, path], i) => (
       <NavLink
        to={path}

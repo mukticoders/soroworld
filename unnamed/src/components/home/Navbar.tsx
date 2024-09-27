@@ -22,7 +22,7 @@ export const Navbar = ({ home }: { home?: boolean }) => {
     <div className="flex gap-4 md:gap-6 items-center">
      {[
       ["Our Solar System", "/explore"],
-      ["The Sun", "/explore/sun"],
+      ["The Sun", "/explore/Star/Sun"],
       ["Planets", "/explore/planets"],
       ["Moons", "/explore/moons"],
       ["Comets", "/explore/comets"],
@@ -31,6 +31,7 @@ export const Navbar = ({ home }: { home?: boolean }) => {
       <NavLink
        to={path}
        key={name}
+       end
        className={({ isActive }) =>
         isActive ? "border-b border-white/50" : ""
        }
@@ -38,7 +39,7 @@ export const Navbar = ({ home }: { home?: boolean }) => {
        <button
         className={
          "leading-4 text-sm hover:text-white/50 transition-all " +
-         (i != 0 && " border-s-2 border-white/50 ps-4 md:ps-6")
+         (home && i != 0 && " border-s-2 border-white/50 ps-4 md:ps-6")
         }
        >
         {name}

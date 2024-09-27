@@ -9,8 +9,14 @@ import fetchNeoData from "./../../../public/data/fetchNEO";
 import { Celestial } from "../../types/data";
 import { useNavigate } from "react-router-dom";
 
-const OrreryScene = ({ setIsOpen, setData }) => {
- const mountRef = useRef(null);
+// Define props type
+interface OrrerySceneProps {
+ setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+ setData: React.Dispatch<React.SetStateAction<Celestial | null>>;
+}
+
+const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
+ const mountRef = useRef<HTMLDivElement | null>(null);
  const navigate = useNavigate();
 
  useEffect(() => {
@@ -28,14 +34,13 @@ const OrreryScene = ({ setIsOpen, setData }) => {
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  mountRef?.current?.appendChild(renderer.domElement);
+  mountRef.current?.appendChild(renderer.domElement); // Ensure mountRef is not null
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableZoom = true;
-  controls.enablePan = true;
+  controls.enablePan = false;
   controls.enableDamping = true;
-  controls.dampingFactor = 0.05;
-  controls.screenSpacePanning = true;
+  controls.dampingFactor = 0.25;
   controls.maxDistance = 200;
 
   const solarSystemGroup = new THREE.Group();
@@ -45,7 +50,7 @@ const OrreryScene = ({ setIsOpen, setData }) => {
   const mouse = new THREE.Vector2();
 
   // Initialize celestial animations
-  const celestialAnimations: ((time: number) => void)[] = [];
+  const celestialAnimations: Array<(time: number) => void> = [];
   const textureLoader = new THREE.TextureLoader();
 
   // Function to add celestial bodies to the scene
@@ -94,7 +99,7 @@ const OrreryScene = ({ setIsOpen, setData }) => {
   celestialBodies.forEach(addCelestialBody);
 
   // Fetch and Add NEOs
-  fetchNeoData((neoData) => {
+  fetchNeoData((neoData: Celestial[]) => {
    neoData.forEach(addCelestialBody);
   });
 
@@ -124,7 +129,7 @@ const OrreryScene = ({ setIsOpen, setData }) => {
    const intersects = raycaster.intersectObjects(scene.children, true);
 
    const goToPage = (name: string, group: string) => {
-    navigate(`/celestial/${group}/${name}`);
+    navigate(`/explore/${group}/${name}`);
    };
 
    intersects.forEach((intersect) => {
@@ -140,7 +145,7 @@ const OrreryScene = ({ setIsOpen, setData }) => {
       setIsOpen(true);
       goToPage(data.name, data.group);
      } else {
-      fetchNeoData((c) => {
+      fetchNeoData((c: Celestial[] | undefined) => {
        const data1 = c?.find((body) => body.name === intersect.object.name);
        if (data1) {
         setData(data1);
@@ -171,11 +176,13 @@ const OrreryScene = ({ setIsOpen, setData }) => {
 
   // Cleanup on Unmount
   return () => {
-   mountRef.current.removeChild(renderer.domElement);
+   if (mountRef.current) {
+    mountRef.current.removeChild(renderer.domElement);
+   }
    window.removeEventListener("resize", handleResize);
    window.removeEventListener("click", handleClick);
   };
- }, [mountRef, setData, setIsOpen, navigate]);
+ }, [setData, setIsOpen, navigate]);
 
  return <div ref={mountRef} />;
 };

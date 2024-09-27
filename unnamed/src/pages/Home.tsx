@@ -11,7 +11,7 @@ const Home: React.FC = () => {
   <div>
    <OrreryScene setIsOpen={setIsOpen} setData={setData} />
    <Details isOpen={isOpen} onClose={() => setIsOpen(false)} data={data} />
-   <Navbar />
+   <Navbar home={true} />
   </div>
  );
 };

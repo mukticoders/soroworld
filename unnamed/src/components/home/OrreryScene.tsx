@@ -4,8 +4,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import CelestialBody from "./CelestialBody";
 import Orbit from "./Orbit";
 import Stars from "./Stars";
-import { celestialBodies } from "../../../public/data/orrery";
-import fetchNeoData from "./../../../public/data/fetchNEO";
+import { celestialBodies } from "../../data/orrery";
+import fetchNeoData from "../../data/fetchNEO";
 import { Celestial } from "../../types/data";
 import { useNavigate } from "react-router-dom";
 

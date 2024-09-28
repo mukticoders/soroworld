@@ -34,7 +34,7 @@ export const Explore = () => {
      </div>
      <div>
       <img
-       src="/NASA-Space-Apps-Challenge-2024/solar.png"
+       src="/NASA-Space-Apps-Challenge-2024/images/solar.png"
        alt=""
        className="w-full"
       />

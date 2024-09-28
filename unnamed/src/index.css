@@ -8,9 +8,3 @@ body,
  height: 100%;
  margin: unset;
 }
-
-canvas {
- display: block;
- margin: auto;
- overflow: hidden;
-}

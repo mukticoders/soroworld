@@ -8,7 +8,7 @@ const Home: React.FC = () => {
  const [isOpen, setIsOpen] = useState<boolean>(false);
  const [data, setData] = useState<Planet | NEO | null>(null);
  return (
-  <div>
+  <div className="w-full overflow-hidden">
    <OrreryScene setIsOpen={setIsOpen} setData={setData} />
    <Details isOpen={isOpen} onClose={() => setIsOpen(false)} data={data} />
    <Navbar home={true} />

@@ -1,3 +1,5 @@
+import { convertAUtoKm, NASA_API_KEY, PLANET_RADIUS_SCALE, PLANET_RADIUS_YINT } from "./global";
+
 type CelestialBody = {
  texture: string;
  name: string;
@@ -13,17 +15,10 @@ type CelestialBody = {
 function fetchNeoData(callback: (celestialBodies: CelestialBody[]) => void) {
  const today = new Date().toISOString().split("T")[0];
  const apiUrl = "https://api.nasa.gov/neo/rest/v1/feed";
- const apiKey = "1wGJOE9pwnGsz1xoc5o2GzOYBf4lbl7dj82dc1qp"; // "9EbbRNj3WUWdVE0oEpcpiW1TuvVLkDeFEYs6pOpx";
- const PLANET_RADIUS_SCALE = 10;
- const PLANET_RADIUS_YINT = 10;
+ 
 
- function convertAUtoKm(au) {
-  const AU_TO_KM = 149597870.7;
-  return Number(au) * AU_TO_KM;
- }
 
- // Fetching NEO data from NASA API
- fetch(`${apiUrl}?start_date=${today}&end_date=${today}&api_key=${apiKey}`)
+ fetch(`${apiUrl}?start_date=${today}&end_date=${today}&api_key=${NASA_API_KEY}`)
   .then((response) => {
    if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -45,8 +40,6 @@ function fetchNeoData(callback: (celestialBodies: CelestialBody[]) => void) {
       name: string;
       orbiting_body: string;
      }) => {
-      const distanceFromEarth =
-       asteroid.close_approach_data[0].miss_distance.kilometers;
       const distanceFromSunAU =
        asteroid.estimated_diameter.kilometers.estimated_diameter_max;
       const distanceFromSunKm = convertAUtoKm(distanceFromSunAU);
@@ -54,7 +47,7 @@ function fetchNeoData(callback: (celestialBodies: CelestialBody[]) => void) {
       celestialBodies.push({
        texture:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy78KEXOeYxXtHY6NVxVmtCKXDMiJd1__YRA&s",
-       name: asteroid.name || "Unnamed Asteroid",
+       name: asteroid.name || "Unnamed",
        group: asteroid.is_potentially_hazardous_asteroid ? "PHA" : "NEA",
        params: {
         size: 0.55,

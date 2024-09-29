@@ -16,7 +16,7 @@ const Orbit = (radius: number, group: string) => {
 
  const geometry = new THREE.BufferGeometry().setFromPoints(points);
  const material = new THREE.LineBasicMaterial({
-  color: Math.random() * 0xffffff,
+  color: 0xe1b06f,
  });
  const line = new THREE.LineLoop(geometry, material);
 

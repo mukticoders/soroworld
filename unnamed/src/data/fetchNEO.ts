@@ -1,4 +1,9 @@
-import { convertAUtoKm, NASA_API_KEY, PLANET_RADIUS_SCALE, PLANET_RADIUS_YINT } from "./global";
+import {
+ convertAUtoKm,
+ NASA_API_KEY,
+ PLANET_RADIUS_SCALE,
+ PLANET_RADIUS_YINT,
+} from "./global";
 
 type CelestialBody = {
  texture: string;
@@ -14,11 +19,15 @@ type CelestialBody = {
 
 function fetchNeoData(callback: (celestialBodies: CelestialBody[]) => void) {
  const today = new Date().toISOString().split("T")[0];
+ const beforeDays = new Date();
+ beforeDays.setDate(beforeDays.getDate() - 6);
  const apiUrl = "https://api.nasa.gov/neo/rest/v1/feed";
- 
 
-
- fetch(`${apiUrl}?start_date=${today}&end_date=${today}&api_key=${NASA_API_KEY}`)
+ fetch(
+  `${apiUrl}?start_date=${
+   beforeDays.toISOString().split("T")[0]
+  }&end_date=${today}&api_key=${NASA_API_KEY}`
+ )
   .then((response) => {
    if (!response.ok) {
     throw new Error("Network response was not ok");

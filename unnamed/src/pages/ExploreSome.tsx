@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navbar } from "../components/home/Navbar";
+import { Navbar } from "../components/Navbar";
 import { useParams } from "react-router-dom";
 import fetchPlanetData from "../data/fetchPlanetData";
 import fetchNeoData from "../data/fetchNEOdata";

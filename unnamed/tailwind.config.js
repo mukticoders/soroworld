@@ -6,6 +6,7 @@ export default {
   extend: {
    colors: {
     primary: "#e1b06f",
+    secondary: "#2f2940",
    },
    fontFamily: {
     new: ["Kanit", ...defaultTheme.fontFamily.sans],

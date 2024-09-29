@@ -72,8 +72,8 @@ const FetchHeroImage: React.FC<FetchHeroImageProps> = ({ group, name }) => {
    src={
     heroImage ||
     (group === "NEA"
-     ? "/NASA-Space-Apps-Challenge-2024/images/1-asteroid-illo.jpg"
-     : "/NASA-Space-Apps-Challenge-2024/images/solar.png")
+     ? "/SoroWorld/images/1-asteroid-illo.jpg"
+     : "/SoroWorld/images/solar.png")
    }
    alt={name}
    className={

@@ -92,7 +92,7 @@ export const ExploreSome = () => {
  return (
   <main className="bg-[#0f0e13] text-white min-h-screen">
    <Navbar home={false} />
-   <div className="absolute z-20 top-0 left-10 w-[2px] h-full bg-white/40"></div>
+   <div className="fixed z-20 top-0 left-10 w-[2px] h-full bg-white/40"></div>
    <section className="_hero-section py-10">
     <div className="grid lg:grid-cols-2 min-h-[80vh]">
      <div className="px-16 flex flex-col justify-center py-4 lg:py-12">

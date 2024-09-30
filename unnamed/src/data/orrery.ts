@@ -1,9 +1,8 @@
 import { PLANET_RADIUS_SCALE, PLANET_RADIUS_YINT } from "./global";
-
+/* https://www.solarsystemscope.com/textures/ */
 export const celestialBodies = [
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDydjdQ1RL4q2aBOVkHfCgIMpEjb0IFBiiUg&s",
+  texture: "/SoroWorld/images/2k_sun.jpg",
   name: "Sun",
   group: "Star",
   params: {
@@ -14,8 +13,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQlXCG5Zeg_PJXAHKYmRSBgkjdehPuRoDb8Q&s",
+  texture: "/SoroWorld/images/2k_earth_daymap.jpg",
   name: "Earth",
   group: "Planet",
   params: {
@@ -26,8 +24,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg",
+  texture: "/SoroWorld/images/2k_mars.jpg",
   name: "Mars",
   group: "Planet",
   params: {
@@ -38,8 +35,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-OMXsZFqfhTgoP2i4r0KdOAsGMHxuHKD0PQ&s",
+  texture: "/SoroWorld/images/2k_venus_surface.jpg",
   name: "Venus",
   group: "Planet",
   params: {
@@ -50,8 +46,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTORdzdwfM7t3gPHwI267R9fiN8-Fqe2Dr8yg&s",
+  texture: "/SoroWorld/images/2k_mercury.jpg",
   name: "Mercury",
   group: "Planet",
   params: {
@@ -62,8 +57,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ABVh6X-rxANutcMkEqX0Q6fQtFt7ERZPkQ&s",
+  texture: "/SoroWorld/images/2k_jupiter.jpg",
   name: "Jupiter",
   group: "Planet",
   params: {
@@ -74,8 +68,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFEBAq2y8p5pY3Q3JR4DE-fAiyFrXeGTj6VA&s",
+  texture: "/SoroWorld/images/2k_saturn.jpg",
   name: "Saturn",
   group: "Planet",
   params: {
@@ -86,8 +79,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://upload.wikimedia.org/wikipedia/commons/9/95/Solarsystemscope_texture_2k_uranus.jpg",
+  texture: "/SoroWorld/images/2k_uranus.jpg",
   name: "Uranus",
   group: "Planet",
   params: {
@@ -98,8 +90,7 @@ export const celestialBodies = [
   },
  },
  {
-  texture:
-   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5m6I1cNvdxJo1hMYBzgmMzcD1viyiItRiyg&s",
+  texture: "/SoroWorld/images/2k_neptune.jpg",
   name: "Neptune",
   group: "Planet",
   params: {

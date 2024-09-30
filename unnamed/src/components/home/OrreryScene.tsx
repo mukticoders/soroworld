@@ -83,10 +83,9 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
      bodyGroup.add(bodyOrbit.line!);
     }
 
-    // Differentiate NEO movement logic
     const isNEO = group === "NEC" || group === "NEA" || group === "PHA";
     const animate = (time: number) => {
-     const angle = isNEO ? Math.random() * 360 : time * velocity * 0.01; // Faster for NEOs or other logic
+     const angle = isNEO ? Math.random() * 360 : time * velocity * 0.01;
      celestialBody.updatePosition(angle);
     };
 

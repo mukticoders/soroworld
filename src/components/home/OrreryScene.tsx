@@ -160,8 +160,8 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
    const intersects = raycaster.intersectObjects(scene.children, true);
 
    const goToPage = (name: string, group: string) => {
-    navigate(`/Explore/${group}/${name}`);
     inExplore = true;
+    navigate(`/Explore/${group}/${name}`);
    };
 
    intersects.forEach((intersect) => {

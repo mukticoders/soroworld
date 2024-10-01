@@ -2,7 +2,7 @@ export type Planet = {
  name: string;
  group: string;
  desc: string;
- link: string;
+ link: string | null;
  params: {
   diameter: number;
   orbitRadius: number;
@@ -16,13 +16,14 @@ function fetchPlanetData(
  callback: (planets: Planet[]) => void,
  error: (error: string) => void
 ) {
- const planetApiUrl = `https://api.le-systeme-solaire.net/rest/bodies/${planetName}`;
+ const planetApiUrl = `https://api.le-systeme-solaire.net/rest/planets/${planetName}`;
 
  fetch(planetApiUrl)
   .then((response) => {
    if (!response.ok) {
     return error("Failed to fetch data!");
    }
+
    return response.json();
   })
   .then((planetData) => {
@@ -32,7 +33,7 @@ function fetchPlanetData(
     name: planetData.englishName || "Unnamed",
     group: "Planet",
     desc: "No description available",
-    link: planetData.content_urls.desktop.page || null,
+    link: null,
     params: {
      diameter: planetData.meanRadius || 0,
      orbitRadius: planetData.semimajorAxis || 0,
@@ -46,13 +47,13 @@ function fetchPlanetData(
    )
     .then((res) => {
      if (!res.ok) {
-      return error("Failed to fetch planet description!");
+      return error("Failed to fetch description!");
      }
      return res.json();
     })
     .then((descData) => {
-     const description = descData.extract || "No description available";
-     planets[0].desc = description;
+     planets[0].desc = descData.extract || "No description available";
+     planets[0].link = descData.content_urls.desktop.page || null;
 
      if (typeof callback === "function") {
       callback(planets);

@@ -16,7 +16,7 @@ function fetchPlanetData(
  callback: (planets: Planet[]) => void,
  error: (error: string) => void
 ) {
- const planetApiUrl = `https://api.le-systeme-solaire.net/rest/planets/${planetName}`;
+ const planetApiUrl = `https://api.le-systeme-solaire.net/rest/bodies/${planetName}`;
 
  fetch(planetApiUrl)
   .then((response) => {
@@ -49,6 +49,7 @@ function fetchPlanetData(
      if (!res.ok) {
       return error("Failed to fetch description!");
      }
+
      return res.json();
     })
     .then((descData) => {

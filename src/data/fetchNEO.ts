@@ -59,7 +59,7 @@ function fetchNeoData(callback: (celestialBodies: CelestialBody[]) => void) {
        name: asteroid.name || "Unnamed",
        group: asteroid.is_potentially_hazardous_asteroid ? "PHA" : "NEA",
        params: {
-        size: 0.55,
+        size: 0.3,
         orbitRadius:
          PLANET_RADIUS_YINT + (distanceFromSunKm / 1e6) * PLANET_RADIUS_SCALE,
         inclination: asteroid.orbiting_body ? 0 : Math.random() * 10,

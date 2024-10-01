@@ -12,6 +12,7 @@ type CelestialBody = {
  inclination: number | null;
  velocity: number | null;
  description: string | null;
+ link: string | null;
 };
 
 export const ExploreSome = () => {
@@ -42,6 +43,7 @@ export const ExploreSome = () => {
         inclination: body.params.inclination,
         velocity: body.params.velocity,
         description: body.desc,
+        link: body.link,
        };
 
        setCelestialBody(celestialBodyData);
@@ -68,6 +70,7 @@ export const ExploreSome = () => {
         inclination: body.params.inclination,
         velocity: body.params.velocity,
         description: body.desc,
+        link: body.link,
        };
 
        setCelestialBody(celestialBodyData);
@@ -135,7 +138,10 @@ export const ExploreSome = () => {
        </div>
       )}
 
-      <a href="https://science.nasa.gov/solar-system/">
+      <a
+       href={celestialBody?.link || "https://science.nasa.gov/solar-system/"}
+       target="_blank"
+      >
        <button className="border-2 border-primary text-white px-4 py-2 rounded-tl-lg rounded-br-lg transition-all hover:scale-95 active:bg-primary/70 my-3">
         Learn more
        </button>

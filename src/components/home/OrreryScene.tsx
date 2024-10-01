@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import CelestialBody from "./CelestialBody";
@@ -20,9 +20,11 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
  const navigate = useNavigate();
 
  useEffect(() => {
+  let inExplore = false;
+
   // Initialize Scene, Camera, Renderer, and Controls
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
+  scene.background = new THREE.Color(0x111111);
 
   const camera = new THREE.PerspectiveCamera(
    75,
@@ -52,6 +54,10 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
   // Initialize celestial animations
   const celestialAnimations: Array<(time: number) => void> = [];
   const textureLoader = new THREE.TextureLoader();
+
+  // Track dragging state
+  let isDragging = false;
+  let mouseDownPosition = { x: 0, y: 0 };
 
   // Function to add celestial bodies to the scene
   const addCelestialBody = (body: Celestial) => {
@@ -117,6 +123,32 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
    renderer.setSize(window.innerWidth, window.innerHeight);
   };
 
+  // Mouse Event Handlers to Differentiate Click from Drag
+  const handleMouseDown = (event: MouseEvent) => {
+   mouseDownPosition = { x: event.clientX, y: event.clientY };
+   isDragging = false;
+  };
+
+  const handleMouseMove = (event: MouseEvent) => {
+   const moveThreshold = 5; // Adjust the threshold as needed
+   if (
+    Math.abs(event.clientX - mouseDownPosition.x) > moveThreshold ||
+    Math.abs(event.clientY - mouseDownPosition.y) > moveThreshold
+   ) {
+    isDragging = true;
+   }
+  };
+
+  const handleMouseUp = (event: MouseEvent) => {
+   if (!isDragging) {
+    document.body.style.cursor = "pointer";
+    handleClick(event);
+    setTimeout(() => {
+     document.body.style.cursor = "auto";
+    }, 100);
+   }
+  };
+
   // Handle Mouse Click
   const handleClick = (event: MouseEvent) => {
    event.preventDefault();
@@ -129,6 +161,7 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
 
    const goToPage = (name: string, group: string) => {
     navigate(`/explore/${group}/${name}`);
+    inExplore = true;
    };
 
    intersects.forEach((intersect) => {
@@ -139,19 +172,21 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
      const data = celestialBodies.find(
       (body) => body.name === intersect.object.name
      );
-     if (data) {
-      setData(data);
-      setIsOpen(true);
-      goToPage(data.name, data.group);
-     } else {
-      fetchNeoData((c: Celestial[] | undefined) => {
-       const data1 = c?.find((body) => body.name === intersect.object.name);
-       if (data1) {
-        setData(data1);
-        setIsOpen(true);
-        goToPage(data1.name, data1.group);
-       }
-      });
+     if (!inExplore) {
+      if (data) {
+       setData(data);
+       setIsOpen(true);
+       goToPage(data.name, data.group);
+      } else {
+       fetchNeoData((c: Celestial[] | undefined) => {
+        const data1 = c?.find((body) => body.name === intersect.object.name);
+        if (data1) {
+         setData(data1);
+         setIsOpen(true);
+         goToPage(data1.name, data1.group);
+        }
+       });
+      }
      }
     }
    });
@@ -166,12 +201,14 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
    renderer.render(scene, camera);
   };
 
-  // Event Listeners
-  window.addEventListener("resize", handleResize);
-  window.addEventListener("click", handleClick);
-
   // Start Animation
   animate();
+
+  // Add Event Listeners
+  window.addEventListener("resize", handleResize);
+  window.addEventListener("mousedown", handleMouseDown);
+  window.addEventListener("mousemove", handleMouseMove);
+  window.addEventListener("mouseup", handleMouseUp);
 
   // Cleanup on Unmount
   return () => {
@@ -179,9 +216,11 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
     mountRef.current.removeChild(renderer.domElement);
    }
    window.removeEventListener("resize", handleResize);
-   window.removeEventListener("click", handleClick);
+   window.removeEventListener("mousedown", handleMouseDown);
+   window.removeEventListener("mousemove", handleMouseMove);
+   window.removeEventListener("mouseup", handleMouseUp);
   };
- }, [setData, setIsOpen, navigate]);
+ }, []);
 
  return <div ref={mountRef} />;
 };

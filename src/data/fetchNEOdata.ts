@@ -1,10 +1,16 @@
-import { convertAUtoKm, NASA_API_KEY, PLANET_RADIUS_SCALE, PLANET_RADIUS_YINT } from "./global";
+import {
+ convertAUtoKm,
+ NASA_API_KEY,
+ PLANET_RADIUS_SCALE,
+ PLANET_RADIUS_YINT,
+} from "./global";
 
 export type CelestialBody = {
  texture: string;
  name: string;
  group: string;
  desc: string;
+  link: string;
  params: {
   size: number;
   diameter: number;
@@ -31,6 +37,7 @@ function fetchNeoData(
   .then((data) => {
    const celestialBodies: CelestialBody[] = [];
    const asteroid = data;
+
    const distanceFromSunAU =
     asteroid.estimated_diameter.kilometers.estimated_diameter_max;
    const distanceFromSunKm = convertAUtoKm(distanceFromSunAU);
@@ -43,6 +50,7 @@ function fetchNeoData(
     desc:
      asteroid.orbital_data.orbit_class.orbit_class_description ||
      "No description available",
+     link: asteroid.nasa_jpl_url,
     params: {
      size: 0.55,
      diameter: distanceFromSunKm,

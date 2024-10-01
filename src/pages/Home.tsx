@@ -9,7 +9,9 @@ const Home: React.FC = () => {
  const [data, setData] = useState<Celestial | null>(null);
  return (
   <div className="w-full overflow-hidden">
-   <OrreryScene setIsOpen={setIsOpen} setData={setData} />
+   <div className="cursor-grab">
+    <OrreryScene setIsOpen={setIsOpen} setData={setData} />
+   </div>
    <Details isOpen={isOpen} onClose={() => setIsOpen(false)} data={data} />
    <Navbar home={true} />
   </div>

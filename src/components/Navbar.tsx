@@ -28,12 +28,11 @@ export const Navbar = ({ home }: { home?: boolean }) => {
      <div className="flex gap-4 md:gap-8 lg:gap-12 items-center">
       <div className="gap-4 md:gap-6 items-center hidden lg:flex">
        {[
-        ["Our Solar System", "/explore"],
-        ["The Sun", "/explore/Star/Sun"],
-        ["Planets", "/explore/planets"],
-        ["Moons", "/explore/moons"],
-        ["Comets", "/explore/comets"],
-        ["Asteroids", "/explore/asteroids"],
+        ["Solar System", "/Explore"],
+        ["The Sun", "/Explore/Star/Sun"],
+        ["Planets", "/Explore/Planets"],
+        ["Comets", "/Explore/Comets"],
+        ["Asteroids", "/Explore/Asteroids"],
        ].map(([name, path], i) => (
         <NavLink
          to={path}
@@ -77,7 +76,7 @@ export const Navbar = ({ home }: { home?: boolean }) => {
       </div>
      </div>
      <div hidden={!home}>
-      <Link to="/explore">
+      <Link to="/Explore">
        <button className="bg-blue-500 text-white px-5 py-1.5 rounded-tl-md rounded-br-md hover:bg-blue-600 active:bg-blue-700">
         Start Exploring
        </button>

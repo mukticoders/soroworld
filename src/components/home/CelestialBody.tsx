@@ -35,7 +35,7 @@ class CelestialBody {
 
   if (name) {
    this.createLabel(name);
-   this.mesh.name = name; // Set the name of the mesh
+   this.mesh.name = name;
   }
  }
 

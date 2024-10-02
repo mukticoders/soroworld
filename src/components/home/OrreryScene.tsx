@@ -32,7 +32,7 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
    0.1,
    1000
   );
-  camera.position.z = 30;
+  camera.position.z = 40;
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);

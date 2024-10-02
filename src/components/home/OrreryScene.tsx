@@ -1,21 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import CelestialBody from "./CelestialBody";
 import Orbit from "./Orbit";
 import Stars from "./Stars";
-import { celestialBodies } from "../../data/orrery";
-import fetchNeoData from "../../data/fetchNEO";
 import { Celestial } from "../../types/data";
 import { useNavigate } from "react-router-dom";
+import { getAllNeo, allBodies } from "../../utils/getData";
+import { transformString } from "../../utils/urlFormat";
 
-// Define props type
-interface OrrerySceneProps {
- setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
- setData: React.Dispatch<React.SetStateAction<Celestial | null>>;
-}
-
-const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
+const OrreryScene: React.FC = () => {
  const mountRef = useRef<HTMLDivElement | null>(null);
  const navigate = useNavigate();
 
@@ -70,28 +64,28 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
 
     const celestialBody = new CelestialBody({
      texture: _texture,
-     size,
+     size: size!,
      orbitRadius,
      name,
      group,
     });
 
     const bodyGroup = new THREE.Group();
-    bodyGroup.rotation.x = THREE.MathUtils.degToRad(inclination);
+    bodyGroup.rotation.x = THREE.MathUtils.degToRad(inclination!);
     bodyGroup.add(celestialBody.mesh);
     if (celestialBody.sprite) {
      bodyGroup.add(celestialBody.sprite);
     }
     solarSystemGroup.add(bodyGroup);
 
-    if (orbitRadius > 0) {
-     const bodyOrbit = Orbit(orbitRadius, group);
+    if (orbitRadius! > 0) {
+     const bodyOrbit = Orbit(orbitRadius!, group!);
      bodyGroup.add(bodyOrbit.line!);
     }
 
     const isNEO = group === "NEC" || group === "NEA" || group === "PHA";
     const animate = (time: number) => {
-     const angle = isNEO ? Math.random() * 360 : time * velocity * 0.01;
+     const angle = isNEO ? Math.random() * 360 : time * velocity! * 0.01;
      celestialBody.updatePosition(angle);
     };
 
@@ -101,10 +95,10 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
   };
 
   // Add Celestial Bodies from static data
-  celestialBodies.forEach(addCelestialBody);
+  allBodies.forEach(addCelestialBody);
 
   // Fetch and Add NEOs
-  fetchNeoData((neoData: Celestial[]) => {
+  getAllNeo((neoData: Celestial[]) => {
    neoData.forEach(addCelestialBody);
   });
 
@@ -161,7 +155,7 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
 
    const goToPage = (name: string, group: string) => {
     inExplore = true;
-    navigate(`/Explore/${group}/${name}`);
+    navigate(`/explore/${group.toLowerCase()}/${transformString(name, group.toLowerCase())}`);
    };
 
    intersects.forEach((intersect) => {
@@ -169,21 +163,15 @@ const OrreryScene: React.FC<OrrerySceneProps> = ({ setIsOpen, setData }) => {
      intersect.object instanceof THREE.Mesh ||
      intersect.object instanceof THREE.Sprite
     ) {
-     const data = celestialBodies.find(
-      (body) => body.name === intersect.object.name
-     );
+     const data = allBodies.find((body) => body.name === intersect.object.name);
      if (!inExplore) {
       if (data) {
-       setData(data);
-       setIsOpen(true);
        goToPage(data.name, data.group);
       } else {
-       fetchNeoData((c: Celestial[] | undefined) => {
+       getAllNeo((c: Celestial[] | undefined) => {
         const data1 = c?.find((body) => body.name === intersect.object.name);
         if (data1) {
-         setData(data1);
-         setIsOpen(true);
-         goToPage(data1.name, data1.group);
+         goToPage(data1.name!, data1.group!);
         }
        });
       }

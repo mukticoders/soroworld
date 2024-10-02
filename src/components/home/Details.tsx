@@ -1,10 +1,10 @@
 import React from "react";
-import { NEO, Planet } from "../../types/data";
+import { Celestial } from "../../types/data";
 
 interface DetailsProps {
  isOpen: boolean;
  onClose: () => void;
- data?: Planet | NEO | null;
+ data?: Celestial | null;
 }
 
 export const Details: React.FC<DetailsProps> = ({ isOpen, onClose, data }) => {

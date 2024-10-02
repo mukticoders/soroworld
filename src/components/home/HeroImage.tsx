@@ -12,9 +12,9 @@ const FetchHeroImage: React.FC<FetchHeroImageProps> = ({ group, name }) => {
  useEffect(() => {
   const fetchImage = async () => {
    let formattedName = "";
-   if (name === "Mars") {
+   if (name === "mars") {
     formattedName = "Mars%20Planet";
-   } else if (name === "Neptune") {
+   } else if (name === "neptune") {
     formattedName = "Neptune%20Solar%20System";
    } else {
     formattedName = encodeURIComponent(name);
@@ -71,9 +71,9 @@ const FetchHeroImage: React.FC<FetchHeroImageProps> = ({ group, name }) => {
   <img
    src={
     heroImage ||
-    (group === "NEA"
-     ? "/SoroWorld/images/1-asteroid-illo.jpg"
-     : "/SoroWorld/images/solar.png")
+    (group === "nea" || group === "pha" || group === "nec"
+     ? "/soroworld/images/1-asteroid-illo.jpg"
+     : "/soroworld/images/solar.png")
    }
    alt={name}
    className={

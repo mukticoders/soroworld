@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
-/*
- * https://science.nasa.gov/solar-system/
- */
+
 export const Explore = () => {
  return (
   <main className="bg-[#0f0e13] text-white min-h-screen">
@@ -35,52 +33,52 @@ export const Explore = () => {
       </a>
      </div>
      <div>
-      <img src="/SoroWorld/images/solar.png" alt="" className="w-full" />
+      <img src="/soroworld/images/solar.png" alt="" className="w-full" />
      </div>
     </div>
     <div className="ps-[2.6rem] md:ps-16 pe-4 md:pe-16 xl:py-0 -mt-[7rem]">
-    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-8 lg:mt-12">
-     {[
-      {
-       name: "The Sun",
-       desc: "A star in daylight",
-       link: "/Explore/Star/Sun",
-       icon: "sun.png",
-      },
-      {
-       name: "Planets",
-       desc: "Eight planets",
-       link: "/Explore/planets",
-       icon: "planets.png",
-      },
-      {
-       name: "Comets",
-       desc: "Icy bodies",
-       link: "/Explore/comets",
-       icon: "comets.png",
-      },
-      {
-       name: "Asteroids",
-       desc: "Rocky bodies",
-       link: "/Explore/asteroids",
-       icon: "asteroids.png",
-      },
-     ].map(({ name, desc, link, icon }) => (
-      <Link to={link} key={name}>
-       <div className="select-none rounded-2xl rounded-tr-none flex gap-2 bg-secondary overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer group relative hover:bg-secondary/70">
-        <img
-         src={`/SoroWorld/images/${icon}`}
-         alt={name}
-         className="w-16 aspect-square object-cover transition-all duration-300 group-hover:scale-110"
-        />
-        <div className="py-3">
-         <h2 className="text-lg font-new font-medium leading-5">{name}</h2>
-         <p className="text-xs line-clamp-1 mt-1">{desc}</p>
+     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-8 lg:mt-12">
+      {[
+       {
+        name: "The Sun",
+        desc: "A star in daylight",
+        link: "/explore/star/sun",
+        icon: "sun.png",
+       },
+       {
+        name: "Planets",
+        desc: "Eight planets",
+        link: "/explore/planets",
+        icon: "planets.png",
+       },
+       {
+        name: "Comets",
+        desc: "Icy bodies",
+        link: "/explore/comets",
+        icon: "comets.png",
+       },
+       {
+        name: "Asteroids",
+        desc: "Rocky bodies",
+        link: "/explore/asteroids",
+        icon: "asteroids.png",
+       },
+      ].map(({ name, desc, link, icon }) => (
+       <Link to={link} key={name}>
+        <div className="select-none rounded-2xl rounded-tr-none flex gap-2 bg-secondary overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer group relative hover:bg-secondary/70">
+         <img
+          src={`/soroworld/images/${icon}`}
+          alt={name}
+          className="w-16 aspect-square object-cover transition-all duration-300 group-hover:scale-110"
+         />
+         <div className="py-3">
+          <h2 className="text-lg font-new font-medium leading-5">{name}</h2>
+          <p className="text-xs line-clamp-1 mt-1">{desc}</p>
+         </div>
         </div>
-       </div>
-      </Link>
-     ))}
-    </div>
+       </Link>
+      ))}
+     </div>
     </div>
    </section>
   </main>

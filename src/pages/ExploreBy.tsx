@@ -28,7 +28,7 @@ export const ExploreBy = () => {
    setLoading(true);
    setError(null);
 
-   if (group === "nea" || group === "pha" || group === "nec") {
+   if (group === "nea" || group === "pha") {
     getNeo(
      bodyName,
      (celestialBodies) => {
@@ -55,7 +55,7 @@ export const ExploreBy = () => {
       setLoading(false);
      }
     );
-   } else {
+   } else if (group !== "nec") {
     getBody(
      bodyName.toLowerCase(),
      (planets) => {
@@ -101,15 +101,15 @@ export const ExploreBy = () => {
        <div className="w-4 h-4 border-2 border-primary rounded-full flex items-center justify-center relative z-30">
         <div className="w-2 h-2 bg-primary rounded-full" />
        </div>
-       <p className="text-gray-500 uppercase">
-        {group}
-       </p>
+       <p className="text-gray-500 uppercase">{group}</p>
       </div>
 
       <h1 className="text-5xl font-[300] font-new mt-3">{formattedName}</h1>
 
       {loading ? (
-       <p className="py-5 lg:max-w-md">Loading...</p>
+       <p className="py-5 lg:max-w-md">
+        {group === "nec" ? "No description" : "Loading..."}
+       </p>
       ) : error ? (
        <p className="py-5 lg:max-w-md text-red-500">{error}</p>
       ) : (
@@ -137,8 +137,14 @@ export const ExploreBy = () => {
       )}
 
       <a
-       href={celestialBody?.link || "https://science.nasa.gov/solar-system/"}
+       href={
+        celestialBody?.link ||
+        (group === "nec"
+         ? `https://www.google.com/search?q=${formattedName}`
+         : "")
+       }
        target="_blank"
+       className="w-fit"
       >
        <button className="border-2 border-primary text-white px-4 py-2 rounded-tl-lg rounded-br-lg transition-all hover:scale-95 active:bg-primary/70 my-3">
         Learn more

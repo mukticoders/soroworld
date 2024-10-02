@@ -5,6 +5,7 @@ import {
  PLANET_RADIUS_SCALE,
  PLANET_RADIUS_YINT,
 } from "./global";
+import { revealString, transformString } from "./urlFormat";
 
 export const allBodies = [
  {
@@ -170,20 +171,29 @@ export function getAllNeo(callback: (celestialBodies: Celestial[]) => void) {
  beforeDays.setDate(beforeDays.getDate() - 6);
  const apiUrl = "https://api.nasa.gov/neo/rest/v1/feed";
 
- fetch(
-  `${apiUrl}?start_date=${
-   beforeDays.toISOString().split("T")[0]
-  }&end_date=${today}&api_key=${NASA_API_KEY}`
- )
-  .then((response) => {
+ Promise.all([
+  fetch(
+   `${apiUrl}?start_date=${
+    beforeDays.toISOString().split("T")[0]
+   }&end_date=${today}&api_key=${NASA_API_KEY}`
+  ).then((response) => {
    if (!response.ok) {
     throw new Error("Network response was not ok");
    }
    return response.json();
-  })
-  .then((data) => {
+  }),
+  fetch("https://data.nasa.gov/resource/b67r-rgxc.json").then((response) => {
+   if (!response.ok) {
+    throw new Error("Network response was not ok");
+   }
+   return response.json();
+  }),
+ ])
+  .then(([neoData, necData]) => {
    const celestialBodies: Celestial[] = [];
-   const asteroids = data.near_earth_objects;
+   const asteroids = neoData.near_earth_objects;
+
+   // Process NEA and PHA
    for (const date in asteroids) {
     asteroids[date].forEach(
      (asteroid: {
@@ -218,6 +228,33 @@ export function getAllNeo(callback: (celestialBodies: Celestial[]) => void) {
      }
     );
    }
+
+   // Process NEC
+   necData.forEach(
+    (comet: {
+     object_name: string;
+     q_au_1: string;
+     p_yr: string;
+     i_deg: string;
+    }) => {
+     const perihelionDistanceAU = parseFloat(comet.q_au_1);
+     const perihelionDistanceKm = convertAUtoKm(perihelionDistanceAU);
+
+     celestialBodies.push({
+      texture:
+       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy78KEXOeYxXtHY6NVxVmtCKXDMiJd1__YRA&s",
+      name: comet.object_name || "Unnamed Comet",
+      group: "NEC",
+      params: {
+       size: 0.3,
+       orbitRadius:
+        PLANET_RADIUS_YINT + (perihelionDistanceKm / 1e6) * PLANET_RADIUS_SCALE,
+       inclination: parseFloat(comet.i_deg),
+       velocity: parseFloat(comet.p_yr) / 5, // Rough estimation of velocity based on period
+      },
+     });
+    }
+   );
 
    if (typeof callback === "function") {
     callback(celestialBodies);

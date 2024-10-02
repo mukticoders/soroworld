@@ -8,15 +8,17 @@ const transformString = (input: string, group: string): string => {
    return group.trim().toLowerCase().replace(/\s+/g, "-");
   });
  } else if (group === "nec") {
-  // For NEC, transform like P/2008 S1 (Catalina-McNaught) -> p--2008-s1
+  // For NEC, transform like C/2015 D1 (Soho) -> c--2015 d1 (soho)
   transformedString = input
-   .replace(/([A-Za-z0-9]+)\/([\w\s-]+)/, (_, prefix, name) => {
-    return `${prefix.toLowerCase()}--${name
-     .trim()
-     .toLowerCase()
-     .replace(/\s+/g, "_")}`;
-   })
-   .replace(/\(([^)]+)\)/, ""); // Remove any part in parentheses for NEC
+   .replace(
+    /([A-Za-z0-9]+)\/(\d+)\s*([A-Za-z0-9]+)/,
+    (_, prefix, year, suffix) => {
+     return `${prefix.toLowerCase()}--${year} ${suffix.toLowerCase()}`;
+    }
+   )
+   .replace(/\(([^)]+)\)/, (_, name) => {
+    return `(${name.trim().toLowerCase()})`; // Handle parentheses separately
+   });
  } else {
   transformedString = input.toLowerCase();
  }
@@ -35,13 +37,13 @@ const revealString = (input: string, group: string): string => {
    })
    .replace(/\s*\)/, ")"); // Ensures no trailing space before closing parenthesis
  } else if (group === "nec") {
-  // For NEC, reverse like p--2008-s1 -> P/2008 S1
+  // For NEC, reverse like c--2015 d1 (soho) -> C/2015 D1 (Soho)
   revealedString = input.replace(
-   /^([a-z0-9]+)--([\w_-]+)$/i,
-   (_, prefix, name) => {
-    return `${prefix.toUpperCase()}/${name
-     .replace(/_/g, " ")
-     .replace(/-/g, " ")}`;
+   /^([a-z0-9]+)--(\d+)\s*([a-z0-9]+)\s*\(([^)]+)\)$/,
+   (_, prefix, year, suffix, name) => {
+    return `${prefix.toUpperCase()}/${year} ${suffix.toUpperCase()} (${
+     name.charAt(0).toUpperCase() + name.slice(1)
+    })`;
    }
   );
  } else {

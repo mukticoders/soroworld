@@ -5,7 +5,6 @@ import {
  PLANET_RADIUS_SCALE,
  PLANET_RADIUS_YINT,
 } from "./global";
-import { revealString, transformString } from "./urlFormat";
 
 export const allBodies = [
  {

@@ -108,7 +108,7 @@ export const ExploreBy = () => {
 
       {loading ? (
        <p className="py-5 lg:max-w-md">
-        {group === "nec" ? "No description" : "Loading..."}
+        {group === "nec" ? "Near-earth comets" : "Loading..."}
        </p>
       ) : error ? (
        <p className="py-5 lg:max-w-md text-red-500">{error}</p>
@@ -139,9 +139,7 @@ export const ExploreBy = () => {
       <a
        href={
         celestialBody?.link ||
-        (group === "nec"
-         ? `https://www.google.com/search?q=${formattedName}`
-         : "")
+        `https://www.google.com/search?q=${formattedName}`
        }
        target="_blank"
        className="w-fit"

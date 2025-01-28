@@ -52,9 +52,9 @@ Welcome to our Solar System Orrery project, created as part of the NASA Space Ap
 3. Rotate the planets or change the viewing angle for a multi-directional perspective.
 
 ## Contributors
-- **[Contributor 1 : Mohammad Sefatullah]** - Role/Full-Stack Developer
-- **[Contributor 2 : Tahmid Hossain]** - Role/Full-Stack Developer
-- **[Contributor 3 : Khaled Hasan Rafi]** - Role/UI-UX designer
+- **Contributor 1 : [Mohammad Sefatullah](https://www.linkedin.com/in/mosefatullah/)** - Role/Full-Stack Developer
+- **Contributor 2 : [Tahmid Hossain](https://www.linkedin.com/in/tahmid~hossain/)** - Role/Full-Stack Developer
+- **Contributor 3 : [Khaled Hasan Rafi](https://www.linkedin.com/in/khaled-hasan-422b472a3/)** - Role/UI-UX designer
 
 ## Acknowledgments
 - Thanks to NASA for providing inspiration and resources for this project.
